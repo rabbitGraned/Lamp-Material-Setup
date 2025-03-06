@@ -11,7 +11,7 @@ The **Redshift** workflow requires specifying names and implementing functionali
 
 ### Main Interface Elements:
 
-1. **Selection:
+1. Selection:
    - **Renderer:** Choose between **Arnold** and **Redshift**.
    - **Object:** Displays the name of the selected object.
 
