@@ -15,7 +15,7 @@ Just clone the repository:
 
 `git clone https://github.com/rabbitGraned/Lamp-Material-Setup`
 
-And open the `lampMaterialSetup.py` file in your text code editor
+And open the `lampMaterialSetup.py` file in your text code editor.
 #### Plug-in
 To install the tool as a Maya script, download the archive directly from GitHub or clone the repository to the `C:\Users\[Username]\Documents\maya\modules` folder.
 
