@@ -39,6 +39,7 @@ def uninitializePlugin(plugin):
 def add_shelf_button():
 
     shelf_name = "Custom"
+    button_label = ""
     button_tooltip = "Lamp Material Setup"
     icon_name = "lampMSPlugin_icon.png"
 
