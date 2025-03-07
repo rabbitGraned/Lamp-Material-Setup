@@ -24,7 +24,7 @@ class MaterialCreator:
         self.material_name = material_name
 
     def create_shader(self):
-        raise NotImplementedError("Method m ust be implemented in subclass")
+        raise NotImplementedError("Method must be implemented in subclass")
 
     def connect_textures(self, textures, use_substance_style, enable_normal_displacement, normal_map_type=None):
         material, sg = self.create_shader()
