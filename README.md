@@ -12,14 +12,15 @@ A special mode `Use Substance style` allows you to quickly assign the correct co
 ### Build
 
 Just clone the repository:
-`git clone https://github.com/rabbitGraned/lamp-material-setup`
+
+`git clone https://github.com/rabbitGraned/Lamp-Material-Setup`
 
 And open the `lampMaterialSetup.py` file in your text code editor
 #### Plug-in
-To install the tool as a Maya script, download the archive directly from GitHub or bend the repository to the `C:\Users\[Username]\Documents\maya\modules` folder.
+To install the tool as a Maya script, download the archive directly from GitHub or clone the repository to the `C:\Users\[Username]\Documents\maya\modules` folder.
 
 In the Maya menu, go to `Window > Settings/Preferences > Plug-in Manager`.
-Find the **lampMSPlugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMSPlugin.py`,
+Find the **lampMSPlugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMSPlugin.py`.
 
 #### Script
 
@@ -27,7 +28,7 @@ You can simply run the `lampMaterialSetup` script in Maya, add to the shelf and 
 
 ### Contribution
 
-Detailed documentation on editing the script is available in the `Developer Docs` file.
+Detailed documentation on editing the script is available in the [`Developer Docs`](Developer%20Docs.md) file.
 
 **Note**: Keep API stable - don't change key function names and signatures, split logic into independent components.
 
