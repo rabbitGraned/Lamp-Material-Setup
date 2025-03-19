@@ -3,7 +3,7 @@
 
  ![screenshot_01](https://github.com/user-attachments/assets/dfdae246-828c-46b7-ad4e-d90b268d2b3f)
 
-This version of the plugin is supported in **Autodesk Maya**™ 2024 and higher.
+This version of the plugin is supported in Maya 2024 and higher.
 
 ![Version](https://img.shields.io/badge/Latest_Stable_Release-2.1-blue)
 
