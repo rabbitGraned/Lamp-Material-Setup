@@ -3,6 +3,10 @@
 
  ![screenshot_01](https://github.com/user-attachments/assets/dfdae246-828c-46b7-ad4e-d90b268d2b3f)
 
+This version of the plugin is supported in **Autodesk Maya**™ 2024 and higher.
+
+![Version](https://img.shields.io/badge/Latest_Stable_Release-2.1.0-blue)
+
 # About
 **Lamp Material Setup** is a plugin for **Autodesk Maya**™ designed to simplify the creation and management of materials with texture maps for **Arnold**™ and **Redshift**™ renderers. This tool automates the process of assigning texture maps and configuring shaders.
 
