@@ -1,23 +1,19 @@
 """
 Lamp Material Setup
-
 Desctiption:
 An approved version of the script, implemented as a plug-in for Maya.
-
-Version:    2.1
+Version:    2.1.1
 Author:     rabbitGraned
 License:    Apache 2.0
-
 """
-
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 import maya.cmds as cmds
 from pathlib import Path
 from functools import partial
 from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
 
-VERSION = "2.1"
+VERSION = "2.1.1"
 
 class MaterialCreator:
     def __init__(self, material_name):
@@ -28,22 +24,17 @@ class MaterialCreator:
 
     def connect_textures(self, textures, use_substance_style, enable_normal_displacement, normal_map_type=None):
         material, sg = self.create_shader()
-
         for texture_type, file_path in textures.items():
             if not file_path or (texture_type in ["Normal", "Displacement"] and not enable_normal_displacement):
                 continue
-
             file_node = cmds.shadingNode("file", asTexture=True, name=f"{self.material_name}_{texture_type}")
             cmds.setAttr(f"{file_node}.fileTextureName", file_path, type="string")
-
             if use_substance_style:
                 if texture_type in ["Roughness", "Metalness"]:
                     cmds.setAttr(f"{file_node}.alphaIsLuminance", True)
                 if texture_type in ["Roughness", "Metalness", "Specular", "Normal"]:
                     cmds.setAttr(f"{file_node}.colorSpace", "Raw", type="string")
-
             self._connect_texture(material, file_node, texture_type, sg, normal_map_type, use_substance_style)
-
         return material, sg
 
     def _connect_texture(self, material, file_node, texture_type, sg, normal_map_type=None, use_substance_style=False):
@@ -150,7 +141,6 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         self.setWindowFlags(QtCore.Qt.Window)
         self.setWindowTitle("Lamp Material Setup")
         self.resize(400, 600)
-
         self.textures = {key: None for key in self.TEXTURE_KEYWORDS.keys()}
         self.use_substance_style = True
         self.enable_normal_displacement = False
@@ -158,41 +148,32 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         self.project_dir = Path(cmds.workspace(q=True, rd=True))
         self.texture_dir = self.project_dir / "textures"
         self.last_texture_dir = None
-
         self.init_ui()
         self.update_object_name()
         self.connect_selection_changed()
 
     def init_ui(self):
         main_layout = QtWidgets.QVBoxLayout(self)
-
         menu_bar = QtWidgets.QMenuBar()
         edit_menu = menu_bar.addMenu("Edit")
         reset_action = QtWidgets.QAction("Reset Textures", self)
         reset_action.triggered.connect(self.reset_fields)
         edit_menu.addAction(reset_action)
-
         default_action = QtWidgets.QAction("Default Settings", self)
         default_action.triggered.connect(self.default_settings)
         edit_menu.addAction(default_action)
-
         help_menu = menu_bar.addMenu("Help")
         about_action = QtWidgets.QAction("Docs", self)
         about_action.triggered.connect(lambda: __import__('webbrowser').open("https://github.com/rabbitGraned/Lamp-Material-Setup/wiki"))
         help_menu.addAction(about_action)
-
         about_action = QtWidgets.QAction("About", self)
         about_action.triggered.connect(lambda: __import__('webbrowser').open("https://github.com/rabbitGraned/Lamp-Material-Setup"))
         help_menu.addAction(about_action)
-
         help_menu.addSeparator()
-
-        version_action = QtWidgets.QAction(f"Tool Version {VERSION}", self)
+        version_action = QtWidgets.QAction(f"Version {VERSION}", self)
         version_action.setEnabled(False)
         help_menu.addAction(version_action)
-
         main_layout.addWidget(menu_bar)
-
         renderer_layout = QtWidgets.QHBoxLayout()
         renderer_label = QtWidgets.QLabel("Renderer:")
         self.renderer_combo = QtWidgets.QComboBox()
@@ -203,10 +184,8 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         renderer_layout.addWidget(self.renderer_combo)
         renderer_layout.addStretch()
         main_layout.addLayout(renderer_layout)
-
         self.material_info_label = QtWidgets.QLabel("Material: aiStandardSurface")
         main_layout.addWidget(self.material_info_label)
-
         object_layout = QtWidgets.QHBoxLayout()
         object_label = QtWidgets.QLabel("Object:") 
         object_label.setFixedWidth(100)
@@ -218,10 +197,8 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         object_layout.addWidget(self.object_name_field)
         object_layout.addStretch()
         main_layout.addLayout(object_layout)
-
         textures_group = QtWidgets.QGroupBox("Textures")
         textures_layout = QtWidgets.QVBoxLayout()
-
         self.texture_widgets = {}
         for texture_type in ["Base Color", "Metalness", "Roughness", "Specular"]:
             texture_layout = QtWidgets.QHBoxLayout()
@@ -229,22 +206,23 @@ class MaterialCreatorUI(QtWidgets.QDialog):
             texture_label.setFixedWidth(100)
             texture_field = QtWidgets.QLineEdit()
             texture_field.setMinimumWidth(250) 
-            browse_button = QtWidgets.QPushButton("...")
-            browse_button.setMaximumWidth(30)
+            browse_button = QtWidgets.QToolButton()
+            browse_button.setIcon(QtGui.QIcon(":browseFolder.png"))
+            browse_button.setIconSize(QtCore.QSize(32, 32))
+            browse_button.setFixedSize(32, 32)
+            browse_button.setStyleSheet("border: none; background-color: transparent;")
             browse_button.clicked.connect(partial(self.browse_texture, texture_type))
             texture_layout.addWidget(texture_label)
             texture_layout.addWidget(texture_field)
             texture_layout.addWidget(browse_button)
+            texture_layout.setSpacing(2)    # SP
             textures_layout.addLayout(texture_layout)
             self.texture_widgets[texture_type] = texture_field
             texture_field.textChanged.connect(partial(self.update_texture_dict, texture_type))
-
         textures_group.setLayout(textures_layout)
         main_layout.addWidget(textures_group)
-
         self.normal_displacement_group = QtWidgets.QGroupBox("Displacement and Normal")
         self.normal_displacement_layout = QtWidgets.QVBoxLayout()
-
         normal_layout = QtWidgets.QHBoxLayout()
         normal_label = QtWidgets.QLabel("Normal:")
         normal_label.setFixedWidth(100)
@@ -255,44 +233,47 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         normal_layout.addWidget(self.normal_combo)
         normal_layout.addStretch()
         self.normal_displacement_layout.addLayout(normal_layout)
-
         normal_field_layout = QtWidgets.QHBoxLayout()
         normal_field_label = QtWidgets.QLabel("")
         normal_field_label.setFixedWidth(100)
         self.normal_field = QtWidgets.QLineEdit()
-        normal_browse = QtWidgets.QPushButton("...")
-        normal_browse.setMaximumWidth(30)
+        normal_browse = QtWidgets.QToolButton()
+        normal_browse.setIcon(QtGui.QIcon(":browseFolder.png"))
+        normal_browse.setIconSize(QtCore.QSize(32, 32))
+        normal_browse.setFixedSize(32, 32)
+        normal_browse.setStyleSheet("border: none; background-color: transparent;")
         normal_browse.clicked.connect(partial(self.browse_texture, "Normal"))
         normal_field_layout.addWidget(normal_field_label)
         normal_field_layout.addWidget(self.normal_field)
         normal_field_layout.addWidget(normal_browse)
+        normal_field_layout.setSpacing(2)
         self.normal_displacement_layout.addLayout(normal_field_layout)
         self.texture_widgets["Normal"] = self.normal_field
         self.normal_field.textChanged.connect(partial(self.update_texture_dict, "Normal"))
-
         displacement_layout = QtWidgets.QHBoxLayout()
         displacement_label = QtWidgets.QLabel("Displacement:")
         displacement_label.setFixedWidth(100)
         self.displacement_field = QtWidgets.QLineEdit()
-        displacement_browse = QtWidgets.QPushButton("...")
-        displacement_browse.setMaximumWidth(30)
+        displacement_browse = QtWidgets.QToolButton()
+        displacement_browse.setIcon(QtGui.QIcon(":browseFolder.png"))
+        displacement_browse.setIconSize(QtCore.QSize(32, 32))
+        displacement_browse.setFixedSize(32, 32)
+        displacement_browse.setStyleSheet("border: none; background-color: transparent;")
         displacement_browse.clicked.connect(partial(self.browse_texture, "Displacement"))
         displacement_layout.addWidget(displacement_label)
         displacement_layout.addWidget(self.displacement_field)
         displacement_layout.addWidget(displacement_browse)
+        displacement_layout.setSpacing(2)
         self.normal_displacement_layout.addLayout(displacement_layout)
         self.texture_widgets["Displacement"] = self.displacement_field
         self.displacement_field.textChanged.connect(partial(self.update_texture_dict, "Displacement"))
-
         self.normal_displacement_group.setLayout(self.normal_displacement_layout)
         self.normal_displacement_group.setEnabled(False)
         main_layout.addWidget(self.normal_displacement_group)
-
         checkboxes_layout = QtWidgets.QHBoxLayout()
         self.enable_normal_disp_checkbox = QtWidgets.QCheckBox("Enable Displacement && Normal")
         self.enable_normal_disp_checkbox.setChecked(False)
         self.enable_normal_disp_checkbox.stateChanged.connect(self.toggle_normal_displacement_block)
-
         self.substance_checkbox = QtWidgets.QCheckBox("Use Substance style")
         self.substance_checkbox.setChecked(True)
         self.substance_checkbox.stateChanged.connect(self.toggle_substance_style)
@@ -301,13 +282,10 @@ class MaterialCreatorUI(QtWidgets.QDialog):
             "- Enables the use of Substance-style texture mapping.\n"
             "- Roughness and Metalness use Alpha Channels.\n"
             "- Color Spaces are set to 'Raw' for relevant maps.")
-
         checkboxes_layout.addWidget(self.enable_normal_disp_checkbox)
         checkboxes_layout.addWidget(self.substance_checkbox)
         main_layout.addLayout(checkboxes_layout)
-
         main_layout.addStretch()
-
         create_button = QtWidgets.QPushButton("Create Material")
         create_button.clicked.connect(self.create_material)
         main_layout.addWidget(create_button)
@@ -330,7 +308,6 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         self.renderer = renderer
         material_type = "aiStandardSurface" if renderer == "Arnold" else "rsMaterial (Experimental)"
         self.material_info_label.setText(f"Material: {material_type}")
-
         if renderer == "Redshift":
             self.normal_combo.setCurrentText("bump2d")
             self.normal_combo.setEnabled(False)
@@ -365,13 +342,11 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         )
         if not file_paths:
             return
-
         if len(file_paths) == 1 and texture_type:
             file_path = file_paths[0]
             self.texture_widgets[texture_type].setText(file_path)
             self.textures[texture_type] = file_path
             self.last_texture_dir = Path(file_path).parent
-
             matched_type = self.match_texture_type(Path(file_path).name.lower())
             if matched_type and matched_type != texture_type:
                 cmds.warning(f"Selected texture '{file_path}' seems to be a {matched_type} map, but assigned to {texture_type}.")
@@ -379,11 +354,9 @@ class MaterialCreatorUI(QtWidgets.QDialog):
             for file_path in file_paths:
                 base_name = Path(file_path).name.lower()
                 matched_type = self.match_texture_type(base_name)
-
                 if matched_type:
                     if not self.enable_normal_displacement and matched_type in ["Normal", "Displacement"]:
                         continue
-
                     self.texture_widgets[matched_type].setText(file_path)
                     self.textures[matched_type] = file_path
                     self.last_texture_dir = Path(file_path).parent
@@ -397,16 +370,13 @@ class MaterialCreatorUI(QtWidgets.QDialog):
     def create_material(self):
         selection = cmds.ls(selection=True)
         material_name = f"{selection[0]}M" if selection else "newMaterial"
-
         filtered_textures = {
             k: v for k, v in self.textures.items()
             if self.enable_normal_displacement or k not in ["Normal", "Displacement"]
         }
-
         normal_map_type = self.normal_combo.currentText() if self.renderer == "Arnold" else None
         creator = MaterialFactory.create_material(self.renderer, material_name, normal_map_type)
         material, sg = creator.connect_textures(filtered_textures, self.use_substance_style, self.enable_normal_displacement, normal_map_type)
-
         if selection:
             try:
                 cmds.sets(selection, edit=True, forceElement=sg)
@@ -427,7 +397,6 @@ def show_ui():
             material_creator_ui.deleteLater()
     except NameError:
         pass
-
     parent = get_maya_main_window()
     material_creator_ui = MaterialCreatorUI(parent)
     material_creator_ui.show()
