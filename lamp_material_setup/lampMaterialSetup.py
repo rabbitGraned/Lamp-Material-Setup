@@ -2,7 +2,7 @@
 Lamp Material Setup
 Desctiption:
 An approved version of the script, implemented as a plug-in for Maya.
-Version:    2.1.1
+Version:    2.2
 Author:     rabbitGraned
 License:    Apache 2.0
 """
@@ -13,7 +13,7 @@ from functools import partial
 from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
 
-VERSION = "2.1.1"
+VERSION = "2.2"
 
 class MaterialCreator:
     def __init__(self, material_name):
