@@ -1,8 +1,8 @@
 """
-lampMSPlugin
+Lamp Material Setup Plugin
 Lamp Material Setup (plugin-script for Maya)
 
-Version:    2.1
+Version:    2.3.0
 Author:     rabbitGraned
 License:    Apache 2.0
 
@@ -15,7 +15,7 @@ import os
 def initializePlugin(plugin):
 
     plugin_name = "Lamp Material Setup"
-    version = "2.1"
+    version = "2.3.0"
     author = "rabbitGraned"
 
     try:
@@ -41,7 +41,7 @@ def add_shelf_button():
     shelf_name = "Custom"
     button_label = ""
     button_tooltip = "Lamp Material Setup"
-    icon_name = "lampMSPlugin_icon.png"
+    icon_name = "lampMaterialSetup_icon.png"
 
     if not cmds.shelfLayout(shelf_name, exists=True):
         cmds.shelfLayout(shelf_name, parent="ShelfLayout")
