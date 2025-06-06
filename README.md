@@ -5,7 +5,7 @@
 
 This version of the plugin is supported in Maya 2024 and higher.
 
-![Version](https://img.shields.io/badge/Latest_Stable_Release-2.1-blue)
+![Version](https://img.shields.io/badge/Latest_Stable_Release-2.3.0-blue)
 
 # About
 **Lamp Material Setup** is a plugin for **Autodesk Maya**™ designed to simplify the creation and management of materials with texture maps for **Arnold**™ and **Redshift**™ renderers. This tool automates the process of assigning texture maps and configuring shaders.
@@ -24,7 +24,7 @@ And open the `lampMaterialSetup.py` file in your text code editor.
 To install the tool as a Maya script, download the archive directly from GitHub or clone the repository to the `C:\Users\[Username]\Documents\maya\modules` folder.
 
 In the Maya menu, go to `Window > Settings/Preferences > Plug-in Manager`.
-Find the **lampMSPlugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMSPlugin.py`.
+Find the **lampMaterialSetup_Plugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMSPlugin.py`.
 
 #### Script
 
