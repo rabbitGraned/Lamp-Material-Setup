@@ -1,6 +1,6 @@
 """
 Lamp Material Setup
-Desctiption:
+Description:
 An approved version of the script, implemented as a plug-in for Maya.
 Version:    2.3.0
 Author:     rabbitGraned
