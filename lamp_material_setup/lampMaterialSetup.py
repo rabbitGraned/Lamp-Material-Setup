@@ -1,11 +1,14 @@
 """
 Lamp Material Setup
+
 Description:
 An approved version of the script, implemented as a plug-in for Maya.
-Version:    2.3.0
+
+Version:    2.4.1
 Author:     rabbitGraned
 License:    Apache 2.0
 """
+
 from PySide2 import QtWidgets, QtCore, QtGui
 import maya.cmds as cmds
 from pathlib import Path
@@ -13,8 +16,9 @@ from functools import partial
 from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
 import webbrowser
+import re
 
-VERSION = "2.3.0"
+VERSION = "2.4.1"
 
 class MaterialCreator:
     def __init__(self, material_name):
@@ -32,6 +36,11 @@ class MaterialCreator:
                 continue
             file_node = cmds.shadingNode("file", asTexture=True, name=f"{self.material_name}_{texture_type.replace(' ', '')}")
             cmds.setAttr(f"{file_node}.fileTextureName", file_path, type="string")
+
+            if self._is_udim_pattern(file_path):
+                cmds.setAttr(f"{file_node}.uvTilingMode", 3)
+                cmds.setAttr(f"{file_node}.filterType", 0)
+            
             if use_substance_style:
                 if texture_type in ["Roughness", "Metalness"]:
                     cmds.setAttr(f"{file_node}.alphaIsLuminance", True)
@@ -47,6 +56,27 @@ class MaterialCreator:
         disp_shader = cmds.shadingNode("displacementShader", asUtility=True, name=f"{self.material_name}_dispShader")
         cmds.connectAttr(f"{file_node}.outAlpha", f"{disp_shader}.displacement")
         cmds.connectAttr(f"{disp_shader}.displacement", f"{sg}.displacementShader")
+    
+    @staticmethod
+    def _is_udim_pattern(file_path):
+
+        if not file_path:
+            return False
+            
+        patterns = [
+            r'<udim>', r'<UDIM>', 
+            r'UDIM', 
+            r'u\d{1,2}_v\d{1,2}',
+            r'%04d'
+        ]
+        
+        file_path_str = str(file_path).lower()
+        
+        for pattern in patterns:
+            if re.search(pattern, file_path_str, re.IGNORECASE):
+                return True
+                
+        return False
 
 class ArnoldMaterialCreator(MaterialCreator):
     def __init__(self, material_name, normal_map_type):
@@ -384,7 +414,7 @@ class MaterialCreatorUI(QtWidgets.QDialog):
 
         availability_status = "" if renderer_available else " [Not Available]"
         self.material_info_label.setText(f"Material: {material_type}{availability_status}")
-        self.status_indicator.setText("•" if not renderer_available else "")
+        self.status_indicator.setText("×" if not renderer_available else "")
 
     def toggle_substance_style(self, state):
         self.use_substance_style = bool(state)

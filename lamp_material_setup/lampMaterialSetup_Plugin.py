@@ -2,7 +2,7 @@
 Lamp Material Setup Plugin
 Lamp Material Setup (plugin-script for Maya)
 
-Version:    2.3.0
+Version:    2.4.1
 Author:     rabbitGraned
 License:    Apache 2.0
 
@@ -15,7 +15,7 @@ import os
 def initializePlugin(plugin):
 
     plugin_name = "Lamp Material Setup"
-    version = "2.3.0"
+    version = "2.4.0"
     author = "rabbitGraned"
 
     try:
@@ -34,7 +34,7 @@ def uninitializePlugin(plugin):
 
     if cmds.commandPort(name=':7005', query=True):
         cmds.commandPort(name=':7005', close=True)
-    print("Lamp Material Setup unloaded.")
+    print("Lamp Material Setup unloaded")
 
 def add_shelf_button():
 
