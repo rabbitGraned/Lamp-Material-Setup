@@ -1,11 +1,14 @@
 """
 Lamp Material Setup
+
 Description:
 An approved version of the script, implemented as a plug-in for Maya.
-Version:    2.4.0
+
+Version:    2.4.1
 Author:     rabbitGraned
 License:    Apache 2.0
 """
+
 from PySide2 import QtWidgets, QtCore, QtGui
 import maya.cmds as cmds
 from pathlib import Path
@@ -15,7 +18,7 @@ import maya.OpenMayaUI as omui
 import webbrowser
 import re
 
-VERSION = "2.4.0"
+VERSION = "2.4.1"
 
 class MaterialCreator:
     def __init__(self, material_name):
@@ -56,18 +59,15 @@ class MaterialCreator:
     
     @staticmethod
     def _is_udim_pattern(file_path):
-        """
-        Check if the file path contains UDIM pattern.
-        Supports: <UDIM>, <udim>, UDIM, u#_v#, u##_v##, %04d
-        """
+
         if not file_path:
             return False
             
         patterns = [
             r'<udim>', r'<UDIM>', 
             r'UDIM', 
-            r'u\d{1,2}_v\d{1,2}',  # u1_v1, u01_v01, etc.
-            r'%04d'                # Mari-style pattern
+            r'u\d{1,2}_v\d{1,2}',
+            r'%04d'
         ]
         
         file_path_str = str(file_path).lower()

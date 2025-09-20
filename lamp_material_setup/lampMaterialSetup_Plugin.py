@@ -2,7 +2,7 @@
 Lamp Material Setup Plugin
 Lamp Material Setup (plugin-script for Maya)
 
-Version:    2.4.0
+Version:    2.4.1
 Author:     rabbitGraned
 License:    Apache 2.0
 
