@@ -1,7 +1,7 @@
 ### Lamp Material Setup
 ---
 
- ![screenshot_01](https://github.com/user-attachments/assets/dfdae246-828c-46b7-ad4e-d90b268d2b3f)
+<img width="1920" height="1040" alt="LMS5GIT" src="https://github.com/user-attachments/assets/6fd0e622-898e-4eca-8516-3246fa1cb245" />
 
 This version of the plugin is supported in Maya 2024 and higher.
 
