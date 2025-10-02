@@ -4,21 +4,21 @@ Lamp Material Setup
 Description:
 An approved version of the script, implemented as a plug-in for Maya.
 
-Version:    2.4.1
+Version:    2.4.1-2
 Author:     rabbitGraned
 License:    Apache 2.0
 """
 
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore, QtGui
 import maya.cmds as cmds
 from pathlib import Path
 from functools import partial
-from shiboken2 import wrapInstance
+from shiboken6 import wrapInstance
 import maya.OpenMayaUI as omui
 import webbrowser
 import re
 
-VERSION = "2.4.1"
+VERSION = "2.4.1-2"
 
 class MaterialCreator:
     def __init__(self, material_name):
@@ -203,7 +203,7 @@ class MaterialCreatorUI(QtWidgets.QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowFlags(QtCore.Qt.Window)
+        self.setWindowFlags(QtCore.Qt.WindowType.Window)
         self.setWindowTitle(f"Lamp Material Setup")
         self.resize(400, 650)
         self.textures = {key: None for key in self.TEXTURE_KEYWORDS.keys()}
@@ -222,21 +222,21 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         main_layout = QtWidgets.QVBoxLayout(self)
         menu_bar = QtWidgets.QMenuBar()
         edit_menu = menu_bar.addMenu("Edit")
-        reset_action = QtWidgets.QAction("Reset Textures", self)
+        reset_action = QtGui.QAction("Reset Textures", self)
         reset_action.triggered.connect(self.reset_fields)
         edit_menu.addAction(reset_action)
-        default_action = QtWidgets.QAction("Default Settings", self)
+        default_action = QtGui.QAction("Default Settings", self)
         default_action.triggered.connect(self.default_settings)
         edit_menu.addAction(default_action)
         help_menu = menu_bar.addMenu("Help")
-        docs_action = QtWidgets.QAction("Docs", self)
+        docs_action = QtGui.QAction("Docs", self)
         docs_action.triggered.connect(lambda: webbrowser.open("https://github.com/rabbitGraned/Lamp-Material-Setup/wiki"))
         help_menu.addAction(docs_action)
-        about_action = QtWidgets.QAction("About", self)
+        about_action = QtGui.QAction("About", self)
         about_action.triggered.connect(lambda: webbrowser.open("https://github.com/rabbitGraned/Lamp-Material-Setup"))
         help_menu.addAction(about_action)
         help_menu.addSeparator()
-        version_action = QtWidgets.QAction(f"{VERSION}", self)
+        version_action = QtGui.QAction(f"{VERSION}", self)
         version_action.setEnabled(False)
         help_menu.addAction(version_action)
         main_layout.addWidget(menu_bar)
@@ -410,7 +410,7 @@ class MaterialCreatorUI(QtWidgets.QDialog):
         else:
             material_type = "Unknown"
 
-        self.normal_combo.setEnabled(True) ##
+        self.normal_combo.setEnabled(True)
 
         availability_status = "" if renderer_available else " [Not Available]"
         self.material_info_label.setText(f"Material: {material_type}{availability_status}")
