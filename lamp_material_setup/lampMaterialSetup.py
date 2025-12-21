@@ -4,7 +4,7 @@ Lamp Material Setup
 Description:
 An approved version of the script, implemented as a plug-in for Maya.
 
-Version:    2.4.1-2
+Version:    2.4.2
 Author:     rabbitGraned
 License:    Apache 2.0
 """
@@ -549,3 +549,4 @@ def show_ui():
 
 if __name__ == "__main__":
     show_ui()
+
