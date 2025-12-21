@@ -26,11 +26,11 @@ or download ZIP.
 To install the tool as a Maya script, download the archive directly from GitHub or clone the repository to the `C:\Users\[Username]\Documents\maya\[version]\scripts` folder.
 
 In the Maya menu, go to `Window > Settings/Preferences > Plug-in Manager`.
-Find the **lampMaterialSetup_Plugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMSPlugin.py`.
+Find the **lampMaterialSetup_Plugin.py** plugin and load it. If the plugin is not loaded automatically, select it using the `Plug-in Manager > Browse > path/lampMaterialSetup_Plugin.py`.
 
 #### Script
 
-You can simply run the `lampMaterialSetup` script in Maya, add to the shelf and replace with the plugin icon if desired. This will simplify debugging and installation.
+You can simply run the `lampMaterialSetup.py` script in Maya, add to the shelf and replace with the plugin icon if desired. This will simplify debugging and installation.
 
 # For Developers
 
