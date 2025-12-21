@@ -2,7 +2,6 @@
 Lamp Material Setup Plugin
 Lamp Material Setup (plugin-script for Maya)
 
-Version:    2.4.1
 Author:     rabbitGraned
 License:    Apache 2.0
 
@@ -66,4 +65,5 @@ def add_shelf_button():
         )
         print(f"Button '{button_label}' added to shelf '{shelf_name}'.")
     except Exception as e:
+
         cmds.warning(f"Failed to add shelf button: {e}")
