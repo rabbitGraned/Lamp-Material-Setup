@@ -18,7 +18,7 @@ import maya.OpenMayaUI as omui
 import webbrowser
 import re
 
-VERSION = "2.4.1-2"
+VERSION = "2.4.2"
 
 class MaterialCreator:
     def __init__(self, material_name):
